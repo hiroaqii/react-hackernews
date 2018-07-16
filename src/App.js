@@ -57,13 +57,19 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
+        <p className="page">
+          <div className="interactions">
           <Search
             value={searchTerm}
             onChange={this.onSearchChange} >
             Search
           </Search>
-          <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss}/>
+          <Table 
+            list={list} 
+            pattern={searchTerm} 
+            onDismiss={this.onDismiss}
+            />
+          </div>
         </p>
       </div>
     );
@@ -81,28 +87,37 @@ const Search = ({value, onChange, children}) =>
   </form>
 
 
-class Table extends Component {
-  render(){
-    const {list, pattern, onDismiss} = this.props;
-    return (
-      <div>
-        {list.filter(isSearched(pattern)).map(item =>
-          <div key={item.objectID}>
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <Button onClick={()=> onDismiss(item.objectID)}>Dissmiss</Button>
-            </span>
-          </div>
-        )}
+
+
+const Table = ({list, pattern, onDismiss}) => 
+  <div className="table">
+    {list.filter(isSearched(pattern)).map(item =>
+      <div key={item.objectID} className="table-row">
+        <span style={{ width: '40%' }}>
+          <a href={item.url}>{item.title}</a>
+        </span>
+        <span style={{ width: '30%' }}>
+          {item.author}
+        </span>
+        <span style={{ width: '10%' }}>
+          {item.num_comments}
+        </span >
+        <span style={{ width: '10%' }}>
+          {item.points
+        }</span>
+        <span style={{ width: '10%' }}>
+          <Button 
+            onClick={()=> onDismiss(item.objectID)}
+            className="button-inline">
+            Dissmiss
+          </Button>
+        </span>
       </div>
-    )
-  }
-}
+    )}
+  </div>
+
+
+
 
 class Button extends Component {
   render(){
